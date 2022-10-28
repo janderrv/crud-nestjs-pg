@@ -1,34 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Inject,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AuthorsService } from './authors.service';
+import { Author } from './entities/author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 
 @Controller('authors')
 export class AuthorsController {
-  constructor(private readonly authorsService: AuthorsService) {}
-
-  @Post()
-  create(@Body() createAuthorDto: CreateAuthorDto) {
-    return this.authorsService.create(createAuthorDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.authorsService.findAll();
-  }
+  @Inject(AuthorsService)
+  private readonly service: AuthorsService;
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authorsService.findOne(+id);
+  public getUser(@Param('id', ParseIntPipe) id: number): Promise<Author> {
+    return this.service.getAuthor(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
-    return this.authorsService.update(+id, updateAuthorDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authorsService.remove(+id);
+  @Post()
+  public createUser(@Body() body: CreateAuthorDto): Promise<Author> {
+    return this.service.createAuthor(body);
   }
 }
