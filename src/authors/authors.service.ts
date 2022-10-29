@@ -5,7 +5,6 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Author } from './entities/author.entity';
 
-
 @Injectable()
 export class AuthorsService {
   @InjectRepository(Author)
@@ -30,11 +29,20 @@ export class AuthorsService {
     author.name = body.name;
     author.birthDate = body.birthDate;
 
-    const result =  await this.repository.createQueryBuilder().update(author).where({ id, deletedAt: IsNull() }).returning('*').execute();
-    return result.raw[0]
+    const result = await this.repository
+      .createQueryBuilder()
+      .update(author)
+      .where({ id, deletedAt: IsNull() })
+      .returning('*')
+      .execute();
+    return result.raw[0];
   }
 
   public deleteAuthor(id: number): Promise<UpdateResult> {
-    return this.repository.createQueryBuilder().softDelete().where({ id, deletedAt: null}).execute();
+    return this.repository
+      .createQueryBuilder()
+      .softDelete()
+      .where({ id, deletedAt: null })
+      .execute();
   }
 }

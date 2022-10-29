@@ -5,23 +5,23 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  OneToMany,
+  ManyToOne,
 } from 'typeorm';
-import { Book } from 'src/books/entities/book.entity';
+import { Author } from 'src/authors/entities/author.entity';
 
 @Entity()
-export class Author {
+export class Book {
   @PrimaryGeneratedColumn()
   public id!: number;
 
   @Column({ type: 'varchar', length: 250 })
   public name: string;
 
-  @Column({ type: 'date' })
-  public birthDate: Date;
+  @Column({ type: 'varchar', length: 250 })
+  public description: string;
 
-  @OneToMany(() => Book, (book: Book) => book.author)
-  public books: Book[];
+  @ManyToOne(() => Author, (author: Author) => author.books)
+  public author: Author;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

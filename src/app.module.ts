@@ -6,14 +6,16 @@ import { AppService } from './app.service';
 import { AuthorsModule } from './authors/authors.module';
 import { getEnvPath } from './common/helper/env.helper';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
+import { BooksModule } from './books/books.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
   imports: [
-    AuthorsModule,
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
+    AuthorsModule,
+    BooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,7 +8,7 @@ import {
   Param,
   Inject,
   ParseIntPipe,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { Author } from './entities/author.entity';
@@ -25,11 +25,11 @@ export class AuthorsController {
   public async getUser(@Param('id', ParseIntPipe) id: number): Promise<Author> {
     const result = await this.service.getAuthor(id);
 
-    if(!result){
+    if (!result) {
       throw new NotFoundException();
     }
 
-    return result
+    return result;
   }
 
   @Post()
@@ -38,24 +38,29 @@ export class AuthorsController {
   }
 
   @Patch(':id')
-  public async updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateAuthorDto): Promise<JSON> {
-    const result = await  this.service.updateAuthor(id, body);
+  public async updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateAuthorDto,
+  ): Promise<JSON> {
+    const result = await this.service.updateAuthor(id, body);
 
-    if(!result){
+    if (!result) {
       throw new NotFoundException();
     }
 
-    return	result
+    return result;
   }
 
   @Delete(':id')
-  public async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<UpdateResult> {
+  public async deleteUser(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UpdateResult> {
     const result = await this.service.deleteAuthor(id);
 
-    if(!result.affected){
+    if (!result.affected) {
       throw new NotFoundException();
     }
 
-    return result
+    return result;
   }
 }
