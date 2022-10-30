@@ -15,7 +15,9 @@ import { Author } from './entities/author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('authors')
 @Controller('authors')
 export class AuthorsController {
   @Inject(AuthorsService)
@@ -23,7 +25,7 @@ export class AuthorsController {
 
   @Get(':id')
   public async getUser(@Param('id', ParseIntPipe) id: number): Promise<Author> {
-    const result = await this.service.getAuthor(id);
+    const result = await this.service.get(id);
 
     if (!result) {
       throw new NotFoundException();
@@ -34,7 +36,7 @@ export class AuthorsController {
 
   @Post()
   public createUser(@Body() body: CreateAuthorDto): Promise<Author> {
-    return this.service.createAuthor(body);
+    return this.service.create(body);
   }
 
   @Patch(':id')
@@ -42,7 +44,7 @@ export class AuthorsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateAuthorDto,
   ): Promise<JSON> {
-    const result = await this.service.updateAuthor(id, body);
+    const result = await this.service.update(id, body);
 
     if (!result) {
       throw new NotFoundException();
@@ -55,7 +57,7 @@ export class AuthorsController {
   public async deleteUser(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<UpdateResult> {
-    const result = await this.service.deleteAuthor(id);
+    const result = await this.service.delete(id);
 
     if (!result.affected) {
       throw new NotFoundException();

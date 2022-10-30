@@ -14,21 +14,21 @@ export class Author {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'varchar', length: 250, default: null })
   public name: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', default: null  })
   public birthDate: Date;
 
   @OneToMany(() => Book, (book: Book) => book.author)
   public books: Book[];
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' ,default: null })
   public createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' , default: null })
   public updatedAt!: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({type: 'timestamp', default: null})
   deletedAt?: Date;
 }

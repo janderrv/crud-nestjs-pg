@@ -10,11 +10,7 @@ export class AuthorsService {
   @InjectRepository(Author)
   private readonly repository: Repository<Author>;
 
-  public getAuthor(id: number): Promise<Author> {
-    return this.repository.findOneBy({ id });
-  }
-
-  public createAuthor(body: CreateAuthorDto): Promise<Author> {
+  public create(body: CreateAuthorDto): Promise<Author> {
     const author: Author = new Author();
 
     author.name = body.name;
@@ -23,7 +19,11 @@ export class AuthorsService {
     return this.repository.save(author);
   }
 
-  public async updateAuthor(id: number, body: UpdateAuthorDto): Promise<JSON> {
+  public get(id: number): Promise<Author> {
+    return this.repository.findOneBy({ id, deletedAt: IsNull() });
+  }
+
+  public async update(id: number, body: UpdateAuthorDto): Promise<JSON> {
     const author: Author = new Author();
 
     author.name = body.name;
@@ -38,11 +38,11 @@ export class AuthorsService {
     return result.raw[0];
   }
 
-  public deleteAuthor(id: number): Promise<UpdateResult> {
+  public delete(id: number): Promise<UpdateResult> {
     return this.repository
       .createQueryBuilder()
       .softDelete()
-      .where({ id, deletedAt: null })
+      .where({ id, deletedAt: IsNull() })
       .execute();
   }
 }

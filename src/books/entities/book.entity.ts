@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Author } from 'src/authors/entities/author.entity';
 
@@ -14,21 +15,22 @@ export class Book {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'varchar', length: 250, default: null })
   public name: string;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'varchar', length: 250 , default: null })
   public description: string;
 
-  @ManyToOne(() => Author, (author: Author) => author.books)
+  @JoinColumn({ name: 'authorId' , referencedColumnName: 'id' })
+  @ManyToOne(() => Author, (author) => author.books)
   public author: Author;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp', default: null  })
   public createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp',default: null  })
   public updatedAt!: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({type: 'timestamp', default: null})
   deletedAt?: Date;
 }

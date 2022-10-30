@@ -8,7 +8,6 @@ async function bootstrap() {
     .setTitle('NestJS CRUD API')
     .setDescription('The NestJS Swagger CRUD API using TypeORM and PostgreSQL')
     .setVersion('1.0')
-    .addTag('NestJS')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
