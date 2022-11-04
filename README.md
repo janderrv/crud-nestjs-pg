@@ -8,7 +8,7 @@
 
 ## Description
 
-A CRUD application using Nestjs
+A CRUD API using Nestjs, TypeORM and PostgreSQL
 
 ## Installation
 
