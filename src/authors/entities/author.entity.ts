@@ -17,18 +17,18 @@ export class Author {
   @Column({ type: 'varchar', length: 250, default: null })
   public name: string;
 
-  @Column({ type: 'date', default: null  })
+  @Column({ type: 'date', default: null })
   public birthDate: Date;
 
   @OneToMany(() => Book, (book: Book) => book.author)
   public books: Book[];
 
-  @CreateDateColumn({ type: 'timestamp' ,default: null })
+  @CreateDateColumn({ type: 'timestamp', default: null })
   public createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' , default: null })
+  @UpdateDateColumn({ type: 'timestamp', default: null })
   public updatedAt!: Date;
 
-  @DeleteDateColumn({type: 'timestamp', default: null})
+  @DeleteDateColumn({ type: 'timestamp', default: null })
   deletedAt?: Date;
 }

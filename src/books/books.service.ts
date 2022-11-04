@@ -37,7 +37,11 @@ export class BooksService {
   }
 
   public get(id: number): Promise<Book> {
-    return this.repository.createQueryBuilder('book').innerJoinAndSelect('book.author', 'author').where({ id, deletedAt: IsNull() }).getOne();
+    return this.repository
+      .createQueryBuilder('book')
+      .innerJoinAndSelect('book.author', 'author')
+      .where({ id, deletedAt: IsNull() })
+      .getOne();
   }
 
   public async update(id: number, body: UpdateBookDto): Promise<JSON> {
